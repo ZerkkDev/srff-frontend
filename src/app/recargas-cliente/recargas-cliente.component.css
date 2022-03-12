@@ -1,0 +1,7 @@
+.table tbody tr.highlight td {
+    background-color: #19a1b4;
+}
+
+.table tbody tr {
+    cursor: pointer
+}

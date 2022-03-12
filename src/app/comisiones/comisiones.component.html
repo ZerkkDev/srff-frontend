@@ -1,0 +1,85 @@
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Desde</label>
+                    <input type="date" class="form-control" [formControl]="desde">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Hasta</label>
+                    <input type="date" class="form-control" [formControl]="hasta">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-round btn-primary" (click)="buscar()">
+                    Buscar
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table" *ngIf="page">
+                <thead>
+                    <th>Usuario</th>
+                    <th>Id jugador</th>
+                    <th>Precio</th>
+                    <th>Diamantes</th>
+                    <th>Estado</th>
+                    <th>Comisión</th>
+                    <th>Fecha</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let recarga of page?.data">
+                        <td>{{recarga.usuario}}</td>
+                        <td>{{recarga.id_jugador}}</td>
+                        <td>{{recarga.precio}}</td>
+                        <td>{{recarga.diamantes}}</td>
+                        <td>
+                            <div *ngIf="recarga.realizado">
+                                <span class="badge bg-success text-dark" style="font-size: small;">
+                                    Realizado
+                                </span><br>
+                                Referencia<br>
+                                {{recarga.descripcion}}
+                            </div>
+                            <div *ngIf="!recarga.realizado">
+                                <span class="badge bg-danger text-dark" style="font-size: small;">
+                                    Rechazado
+                                </span><br>
+                                {{recarga.descripcion}}
+                            </div>
+                        </td>
+                        <td>{{recarga.comision}}</td>
+                        <td>{{recarga.created_at|date:'d/M/y, h:mm a'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- pagination -->
+            <nav *ngIf="page?.links">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <button class="page-link" (click)="paginate(page?.first_page_url)">
+                            <i class="fa fa-angle-double-left"></i>
+                        </button>
+                    </li>
+                    <li *ngFor="let link of page?.links"
+                        class="page-item {{link.active?'active':''}} {{link.url?'':'disabled'}}">
+                        <button class="page-link" (click)="paginate(link.url)">
+                            <div *ngIf="!link.icon">{{link.label}}</div>
+                            <i *ngIf="link.icon" [class]="link.icon"></i>
+                        </button>
+                    </li>
+                    <li class="page-item">
+                        <button class="page-link" (click)="paginate(page?.last_page_url)">
+                            <i class="fa fa-angle-double-right"></i>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

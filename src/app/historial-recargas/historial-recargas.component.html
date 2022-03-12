@@ -1,0 +1,130 @@
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Desde</label>
+                    <input type="date" class="form-control" [formControl]="desde" *ngIf="usuario?.id_tipo!=1">
+                    <input type="datetime-local" class="form-control" [formControl]="desde" *ngIf="usuario?.id_tipo==1">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Hasta</label>
+                    <input type="date" class="form-control" [formControl]="hasta" *ngIf="usuario?.id_tipo!=1">
+                    <input type="datetime-local" class="form-control" [formControl]="hasta" *ngIf="usuario?.id_tipo==1">
+                </div>
+            </div>
+            <div class="col-md-3" *ngIf="usuario?.id_tipo==1">
+                <div class="form-group">
+                    <label>Filtrar por precio</label>
+                    <select class="form-control" [formControl]="id_precio" style="background-color: #202940;">
+                        <option [value]="0">Todos</option>
+                        <option *ngFor="let precio of precios" [value]="precio.id_precio">
+                            ${{precio.prepago}} | {{precio.diamantes}}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-round btn-primary" (click)="showByDates()">
+                    Buscar
+                </button>
+            </div>
+            <div class="col-md-3">
+                <form class="input-group" (submit)="showByIdJugador()">
+                    <input type="text" class="form-control" placeholder="ID de jugador" [formControl]="id_jugador">
+                    <div class="input-group-prepend">
+                        <button type="submit" class="btn btn-just-icon btn-sm btn-primary">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table" *ngIf="page">
+                <thead>
+                    <th *ngIf="usuario?.id_tipo==1 || usuario?.id_tipo==4">Usuario</th>
+                    <th>Precio</th>
+                    <th>Id jugador</th>
+                    <th>Diamantes</th>
+                    <th>Estado</th>
+                    <th *ngIf="usuario?.id_tipo==1 || usuario?.id_tipo==4">Aprobado por</th>
+                    <th>Fecha</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let recarga of page?.data">
+                        <td *ngIf="usuario?.id_tipo==1 || usuario?.id_tipo==4">{{recarga.usuario}}</td>
+                        <td>{{usuario?.id_group?recarga.group_precio:recarga.precio}}</td>
+                        <td>{{recarga.id_jugador}}</td>
+                        <td>{{recarga.diamantes}}</td>
+                        <td>
+                            <div *ngIf="recarga.realizado==2">
+                                <span class="badge bg-warning text-dark" style="font-size: small;">
+                                    Pendiente
+                                </span>&nbsp;
+                                <a href="javascript:;" (click)="reenviar(recarga)">
+                                    <u>Volver a recargar</u>
+                                </a><br>
+                                Nota: Esta acción no debitará su saldo
+                            </div>
+                            <div *ngIf="recarga.realizado==1">
+                                <span class="badge bg-success text-dark" style="font-size: small;">
+                                    Realizado
+                                </span><br>
+                                Referencia<br>
+                                {{recarga.descripcion}}
+                            </div>
+                            <div *ngIf="recarga.realizado==0">
+                                <span class="badge bg-danger text-dark" style="font-size: small;">
+                                    Rechazado
+                                </span><br>
+                                {{recarga.descripcion}}
+                            </div>
+                        </td>
+                        <td *ngIf="usuario?.id_tipo==1 || usuario?.id_tipo==4">{{recarga.aprobado}}</td>
+                        <td>{{recarga.created_at|date:'d/M/y, h:mm a'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- pagination -->
+            <nav *ngIf="page?.links">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <button class="page-link" (click)="paginate(page?.first_page_url)">
+                            <i class="fa fa-angle-double-left"></i>
+                        </button>
+                    </li>
+                    <li *ngFor="let link of page?.links"
+                        class="page-item {{link.active?'active':''}} {{link.url?'':'disabled'}}">
+                        <button class="page-link" (click)="paginate(link.url)">
+                            <div *ngIf="!link.icon">{{link.label}}</div>
+                            <i *ngIf="link.icon" [class]="link.icon"></i>
+                        </button>
+                    </li>
+                    <li class="page-item">
+                        <button class="page-link" (click)="paginate(page?.last_page_url)">
+                            <i class="fa fa-angle-double-right"></i>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+    <div class="row justify-content-center" *ngIf="page && usuario?.id_tipo==1">
+        <div class="col-md-3">
+            <input type="number" class="form-control" min="0.8" max="1" step="0.01" [formControl]="porcentaje">
+        </div>
+        <div class="col-md-3">
+            <button type="button" class="btn btn-round btn-primary" (click)="calcularGanancia()">
+                Calcular
+            </button>
+        </div>
+        <div class="col-md-3">
+            <label>{{ganancia}}</label>
+        </div>
+    </div>
+</div>

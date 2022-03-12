@@ -1,0 +1,42 @@
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-3">
+                <button type="button" class="btn btn-round btn-success" routerLink="deposito">
+                    Seleccionados
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover" id="infoTable">
+                <thead>
+                    <tr>
+                        <th>Usuario</th>
+                        <th>Valor</th>
+                        <th>Banco</th>
+                        <th>Comprobante</th>
+                        <th>Fecha</th>
+                        <th class="text-center">Seleccionar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let deposito of depositos">
+                        <td>{{deposito.usuario}}</td>
+                        <td>$ {{deposito.valor}}</td>
+                        <td>{{deposito.banco}}</td>
+                        <td>{{deposito.comprobante}}</td>
+                        <td [width]="200">{{deposito.date}}</td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-round btn-just-icon btn-success btn-sm m-1"
+                                title="Seleccionar" (click)="seleccionar(deposito)" [disabled]="disable">
+                                <i class="fa fa-external-link-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

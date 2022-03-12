@@ -1,0 +1,32 @@
+<div class="sidebar" data-color="azure" data-background-color="black" data-image="../assets/img/sidebar-1.jpg">
+    <!--
+      Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
+
+      Tip 2: you can also add an image using data-image tag
+    -->
+    <div class="logo">
+        <!-- <a href="http://www.creative-tim.com" class="simple-text logo-normal">
+            Creative Tim
+        </a> -->
+        <a class="row">
+            <img class="mr-auto ml-auto" src="../../../assets/img/logo.png" height="35">
+        </a>
+    </div>
+    <div class="sidebar-wrapper ps-container ps-active-y">
+        <ul class="nav">
+            <li class="nav-item d-lg-none">
+                <a class="nav-link" href="javascript:;" (click)="logout()">
+                    <i class="fa fa-sign-out-alt"></i>
+                    <p>Salir</p>
+                </a>
+            </li>
+            <hr class="d-lg-none" style="border-top: 3px solid #8c919e;">
+            <li class="nav-item" routerLinkActive="active" *ngFor="let module of modules!">
+                <a class="nav-link" [routerLink]="module.path">
+                    <i [class]="module.icon"></i>
+                    <p>{{module.name|titlecase}}</p>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

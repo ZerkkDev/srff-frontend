@@ -1,0 +1,116 @@
+<div class="card">
+    <div class="card-header">
+        <marquee>
+            <small class="text-muted">
+                ¡AVISO! Solo se receptara recargas desde las 6:00 AM hasta 9:30 PM
+            </small>
+        </marquee>
+        <div class="row justify-content-center">
+            <h3>
+                <span class="badge bg-light" style="color: black;">
+                    Saldo: ${{usuario?.saldo|number:'1.0-2'}}
+                </span>
+                &nbsp;
+                <button type="button" class="btn btn-just-icon btn-round btn-default btn-sm" title="Actualizar Saldo"
+                    (click)="getSaldo()" [disabled]="disable">
+                    <i class="fa fa-sync-alt"></i>
+                </button>
+            </h3>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="row justify-content-center m-5">
+            <div class="col-md-4 form-group">
+                <label class="bmd-label-floating">ID de Jugador</label>
+                <input type="text" class="form-control" name="jugador" [formControl]="id_jugador" minlength="8"
+                    maxlength="15" required>
+                <!-- <button type="button" class="btn btn-round btn-info" (click)="validarName()">
+                    Validar
+                </button> -->
+            </div>
+            <div class="col-md-4">
+                <div class="row justify-content-center">
+                    <button class="btn btn-round btn-primary" data-toggle="modal" data-target="#realizar">
+                        Recargar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="table-responsive">
+                    <table class="table table-hover" id="infoTable">
+                        <thead>
+                            <tr>
+                                <th class="text-center">Precio</th>
+                                <th>Diamantes</th>
+                                <th class="d-none d-sm-block">Bonus</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let precio of precios" (click)="seleccionarPrecio(precio)"
+                                [ngClass]="precio.active?'highlight':''">
+                                <td class="text-center" style="width: 175px;">
+                                    <span class="badge bg-light text-dark" style="font-size: medium;">
+                                        <strong>
+                                            $ {{precio.precio}}
+                                        </strong>
+                                    </span>
+                                </td>
+                                <td style="width: 275px;">
+                                    <span style="color: white;">{{precio.diamantes}}</span>
+                                    <img src="../../assets/img/diamantes.png" height="25px" *ngIf="!precio.tarjeta">
+                                    <img src="../../assets/img/tarjeta.png" height="35px" *ngIf="precio.tarjeta">
+                                </td>
+                                <td class="d-none d-sm-table-cell">
+                                    <span style="color: tan;">{{precio.bonus}}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row justify-content-center">
+                    <button class="btn btn-round btn-primary" data-toggle="modal" data-target="#realizar">
+                        Recargar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="realizar" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-sm" role="form">
+                <div class="modal-content" style="background-color: #1a2035;">
+                    <!-- <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div> -->
+                    <div class="modal-body">
+                        <div class="text-center">
+                            <label style="font-size: medium;">¿Realizar recarga?</label><br>
+                            <label style="font-size: medium;">
+                                Id jugador: {{id_jugador.value}}
+                            </label><br>
+                            <label style="font-size: medium;">
+                                Valor: ${{precio?.precio}}
+                            </label><br>
+                        </div>
+                        <div class="text-center">
+                            <button type="button" class="btn btn-primary" (click)="recargar()">Aceptar</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        </div>
+                    </div>
+                    <button type="button" id="closeModal" hidden data-dismiss="modal"></button>
+                    <!-- <div class="modal-footer">
+                        <button type="button" class="btn btn-primary">Aceptar</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

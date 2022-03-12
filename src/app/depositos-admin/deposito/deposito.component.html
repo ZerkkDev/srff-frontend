@@ -1,0 +1,94 @@
+<div class="row">
+    <div class="col-12">
+        <button type="button" class="btn btn-round btn-defaul" routerLink="/app/depositos-admin">
+            Atras
+        </button>
+    </div>
+    <div class="col-sm-6 col-xl-4 col-xxl-3" *ngFor="let item of depositos">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Nùmero de comprobante</h4>
+                <p class="card-category">
+                    {{item.comprobante}}
+                    <button type="button" class="btn btn-just-icon btn-info btn-sm" (click)="setSrc(item.image_path)">
+                        <i class="fa fa-image"></i>
+                    </button>
+                </p>
+            </div>
+            <div class="card-body">
+                <!-- <div class="form-group">
+                    ID de jugador: {{recarga.id_jugador}}
+                    <button class="btn btn-just-icon btn-info btn-sm">
+                        <i class="fa fa-copy"></i>
+                    </button>
+                </div> -->
+                <div class="form-group">
+                    Usuario: {{item.usuario}}
+                </div>
+                <div class="form-group">
+                    Valor: ${{item.valor}}
+                </div>
+                <div class="form-group">
+                    Banco: {{item.banco}}
+                </div>
+                <div class="form-group">
+                    Fecha: {{item.date}}
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="form-group">
+                    <button class="btn btn-success m-1" data-toggle="modal" data-target="#realizar"
+                        (click)="seleccionar(item, true)">
+                        Aceptar
+                    </button>
+                    <button class="btn btn-info m-1" data-toggle="modal" data-target="#realizar"
+                        (click)="seleccionar(item, false)">
+                        Rechazar
+                    </button>
+                    <button class="btn btn-default m-1" (click)="cancelar(item)">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="realizar" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="form">
+        <div class="modal-content" style="background-color: #1a2035;">
+            <!-- <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div> -->
+            <div class="modal-body" *ngIf="realizado">
+                <div class="text-center">
+                    <label style="font-size: medium;">¿Validar deposito?</label>
+                </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary" (click)="realizar()">Aceptar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+            <div class="modal-body" *ngIf="!realizado">
+                <div class="form-group m-2">
+                    <label>Escriba la razón</label>
+                    <textarea class="form-control" [formControl]="razon" rows="3">
+                    </textarea>
+                </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary" (click)="realizar()">Rechazar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+            <button type="button" id="closeModal" hidden data-dismiss="modal"></button>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Aceptar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div> -->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,68 @@
+<div class="card">
+    <div class="card-header">
+        <!-- <button class="btn btn-default" title="Agregar Aviso" type="button" (click)="logout()">
+            <i class="fa fa-arrow-left"></i>&nbsp;
+            Salir
+        </button> -->
+        <!-- <h4 class="card-title">Avisos</h4> -->
+        <!-- <p class="card-category"> Here is a subtitle for this table</p> -->
+        <button class="btn btn-success btn-round" title="Agregar Aviso" type="button" (click)="store()">
+            <!-- <i class="fa fa-plus"></i> -->
+            Agregar
+        </button>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Titulo</th>
+                        <th>Mensaje</th>
+                        <th class="text-center">Activo</th>
+                        <th class="text-center">Guardar</th>
+                        <th class="text-center">Probar</th>
+                        <th class="text-center">Eliminar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let aviso of avisos">
+                        <td>
+                            <input class="form-control" type="text" [(ngModel)]="aviso.title">
+                        </td>
+                        <td>
+                            <textarea class="form-control" rows="5" [(ngModel)]="aviso.message"></textarea>
+                        </td>
+                        <td class="text-center">
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input class="form-check-input" type="checkbox" [(ngModel)]="aviso.active">
+                                    <span class="form-check-sign">
+                                        <span class="check"></span>
+                                    </span>
+                                </label>
+                            </div>
+                        </td>
+                        <td class="text-center" [width]="10">
+                            <button class="btn btn-success btn-round btn-just-icon btn-sm" title="Guardar" type="button"
+                                (click)="update(aviso)">
+                                <i class="fa fa-save"></i>
+                            </button>
+                        </td>
+                        <td class="text-center" [width]="10">
+                            <button class="btn btn-info btn-round btn-just-icon btn-sm" title="Probar" type="button"
+                                (click)="test(aviso)">
+                                <i class="fa fa-exclamation-circle"></i>
+                            </button>
+                        </td>
+                        <td class="text-center" [width]="10">
+                            <button class="btn btn-default btn-round btn-just-icon btn-sm" title="Eliminar"
+                                type="button" (click)="destroy(aviso.id)">
+                                <i class="fa fa-trash-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

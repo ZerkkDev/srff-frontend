@@ -1,0 +1,59 @@
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-3">
+                <button type="button" class="btn btn-round btn-success" routerLink="recarga">
+                    Seleccionados
+                </button>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-hover" id="infoTable">
+                <thead>
+                    <tr>
+                        <th class="d-none d-sm-table-cell">Usuario</th>
+                        <th>Id jugador</th>
+                        <th>Precio</th>
+                        <th>Diamantes</th>
+                        <th *ngIf="usuario?.id_tipo==1">Aprobando</th>
+                        <th>Fecha</th>
+                        <th class="text-center">Seleccionar</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let recarga of recargas">
+                        <td class="d-none d-sm-table-cell">{{recarga.usuario}}</td>
+                        <td>{{recarga.id_jugador}}</td>
+                        <td>{{recarga.precio}}</td>
+                        <td>
+                            {{recarga.diamantes}}
+                            <img src="../../../assets/img/tarjeta.png" height="50px" *ngIf="recarga.tarjeta">
+                        </td>
+                        <td *ngIf="usuario?.id_tipo==1">{{recarga.aprobado}}</td>
+                        <td>{{recarga.created_at|date:'d/M/y, h:mm a'}}</td>
+                        <td class="text-center" *ngIf="usuario?.id_tipo==4">
+                            <button type="button" class="btn btn-round btn-just-icon btn-success btn-sm m-1"
+                                title="Seleccionar" (click)="seleccionar(recarga)" [disabled]="disable">
+                                <i class="fa fa-external-link-alt"></i>
+                            </button>
+                        </td>
+                        <td class="text-center" *ngIf="usuario?.id_tipo==1">
+                            <button type="button" class="btn btn-round btn-just-icon btn-success btn-sm m-1"
+                                title="Seleccionar" (click)="seleccionar(recarga)" [disabled]="disable"
+                                *ngIf="!recarga.aprobado_por">
+                                <i class="fa fa-external-link-alt"></i>
+                            </button>
+                            <button type="button" class="btn btn-round btn-just-icon btn-danger btn-sm m-1"
+                                title="Seleccionar" (click)="seleccionar(recarga)" [disabled]="disable"
+                                *ngIf="recarga.aprobado_por">
+                                <i class="fa fa-external-link-alt"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,93 @@
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Desde</label>
+                    <input type="date" class="form-control" [formControl]="desde">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="form-group">
+                    <label>Hasta</label>
+                    <input type="date" class="form-control" [formControl]="hasta">
+                </div>
+            </div>
+            <div class="col-md-3">
+                <button type="button" class="btn btn-round btn-primary" (click)="showByDates()">
+                    Buscar
+                </button>
+            </div>
+            <div class="col-md-3">
+                <form class="input-group" (submit)="showByComprobante()">
+                    <input type="text" class="form-control" placeholder="Comprobante" [formControl]="comprobante">
+                    <div class="input-group-prepend">
+                        <button type="submit" class="btn btn-just-icon btn-sm btn-primary">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table" *ngIf="page">
+                <thead>
+                    <th *ngIf="usuario?.id_tipo==1 || usuario?.id_tipo==4">Usuario</th>
+                    <th>Valor</th>
+                    <th>Banco</th>
+                    <th>Comprobante</th>
+                    <th>Estado</th>
+                    <th *ngIf="usuario?.id_tipo==1 || usuario?.id_tipo==4">Aprobado por</th>
+                    <th>Fecha</th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let deposito of page?.data">
+                        <td *ngIf="usuario?.id_tipo==1 || usuario?.id_tipo==4">{{deposito.usuario}}</td>
+                        <td>{{deposito.valor}}</td>
+                        <td>{{deposito.banco}}</td>
+                        <td>{{deposito.comprobante}}</td>
+                        <td>
+                            <div *ngIf="deposito.realizado">
+                                <span class="badge bg-success text-dark" style="font-size: small;">
+                                    Realizado
+                                </span><br>
+                            </div>
+                            <div *ngIf="!deposito.realizado">
+                                <span class="badge bg-danger text-dark" style="font-size: small;">
+                                    Rechazado
+                                </span><br>
+                                {{deposito.razon}}
+                            </div>
+                        </td>
+                        <td *ngIf="usuario?.id_tipo==1 || usuario?.id_tipo==4">{{deposito.aprobado}}</td>
+                        <td>{{deposito.created_at|date:'d/M/y, h:mm a'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- pagination -->
+            <nav *ngIf="page?.links">
+                <ul class="pagination">
+                    <li class="page-item">
+                        <button class="page-link" (click)="paginate(page?.first_page_url)">
+                            <i class="fa fa-angle-double-left"></i>
+                        </button>
+                    </li>
+                    <li *ngFor="let link of page?.links"
+                        class="page-item {{link.active?'active':''}} {{link.url?'':'disabled'}}">
+                        <button class="page-link" (click)="paginate(link.url)">
+                            <div *ngIf="!link.icon">{{link.label}}</div>
+                            <i *ngIf="link.icon" [class]="link.icon"></i>
+                        </button>
+                    </li>
+                    <li class="page-item">
+                        <button class="page-link" (click)="paginate(page?.last_page_url)">
+                            <i class="fa fa-angle-double-right"></i>
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>

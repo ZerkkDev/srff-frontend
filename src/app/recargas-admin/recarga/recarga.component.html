@@ -1,0 +1,97 @@
+<div class="row">
+    <div class="col-12">
+        <button type="button" class="btn btn-round btn-defaul" routerLink="/app/recargas-admin">
+            Atras
+        </button>
+    </div>
+    <div class="col-sm-6 col-xl-4 col-xxl-3" *ngFor="let recarga of recargas">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">ID de jugador</h4>
+                <p class="card-category">
+                    {{recarga.id_jugador}}
+                    <button class="btn btn-just-icon btn-info btn-sm" (click)="copy(recarga.id_jugador)">
+                        <i class="fa fa-copy"></i>
+                    </button>
+                </p>
+            </div>
+            <div class="card-body">
+                <!-- <div class="form-group">
+                    ID de jugador: {{recarga.id_jugador}}
+                    <button class="btn btn-just-icon btn-info btn-sm">
+                        <i class="fa fa-copy"></i>
+                    </button>
+                </div> -->
+                <div class="form-group">
+                    Usuario: {{recarga.usuario}}
+                </div>
+                <div class="form-group">
+                    Precio: ${{recarga.precio}}
+                </div>
+                <div class="form-group">
+                    Diamantes: {{recarga.diamantes}}
+                    <img src="../../assets/img/tarjeta.png" height="50px" *ngIf="recarga.tarjeta==1">
+                </div>
+                <div class="form-group">
+                    Fecha: {{recarga.created_at|date:'d/M/y, h:mm a'}}
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="form-group">
+                    <button class="btn btn-success m-1" data-toggle="modal" data-target="#realizar"
+                        (click)="seleccionar(recarga, true)">
+                        Aceptar
+                    </button>
+                    <button class="btn btn-info m-1" data-toggle="modal" data-target="#realizar"
+                        (click)="seleccionar(recarga, false)">
+                        Rechazar
+                    </button>
+                    <button class="btn btn-default m-1" (click)="cancelar(recarga)">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="realizar" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm" role="form">
+        <div class="modal-content" style="background-color: #1a2035;">
+            <!-- <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div> -->
+            <div class="modal-body" *ngIf="recarga?.realizado">
+                <div class="form-group m-2">
+                    <input type="text" class="form-control" placeholder="Referencia" [formControl]="descripcion">
+                </div>
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary" (click)="realizar()">Aceptar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+            <div class="modal-body" *ngIf="!recarga?.realizado">
+                <div class="form-group">
+                    <label>Razon</label>
+                    <select class="form-control" [formControl]="descripcion" style="background-color: #1a2035;">
+                        <option value="ID de jugador incorrecto">ID de jugador incorrecto</option>
+                        <option value="ID de otra region">ID de otra region</option>
+                    </select>
+                </div><br>
+                <div class="text-center">
+                    <button type="button" class="btn btn-primary" (click)="realizar()">Rechazar</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                </div>
+            </div>
+            <button type="button" id="closeModal" hidden data-dismiss="modal"></button>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-primary">Aceptar</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+            </div> -->
+        </div>
+    </div>
+</div>

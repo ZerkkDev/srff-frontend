@@ -1,0 +1,21 @@
+{
+  "targets": {
+    "test-firebase-28b82": {
+      "hosting": {
+        "cliente-srff": [
+          "test-firebase-28b82"
+        ]
+      }
+    },
+    "srff-a253d": {
+      "hosting": {
+        "cliente-srff": [
+          "srff-a253d"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "srff-a253d"
+  }
+}
